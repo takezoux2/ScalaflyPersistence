@@ -37,37 +37,48 @@ class ScalaPersistenceManager(val pm : PersistenceManager) {
     pm.getScopingDataSource.endConnectionScope
   }
 
-  def transaction( func : (IDaos) => Any) = {
-    var conn = pm.getScopingDataSource;
-    conn.beginTransactionScope
+  def daos[T](func : (IDaos) => T) : T = {
     var daos = pm.createDaos
     try{
-      func(daos)
+      val result = func(daos)
       daos.closeConnection
       daos = null
-      conn.endTransactionScope
-      conn = null
+      result
     }catch{
       case e : Exception => {
         if(daos != null){
           daos.closeConnection
           daos = null
         }
-        if(conn != null){
-          conn.abortTransactionScope(e)
-          conn = null
-        }
         throw e
-      }
-    }finally{
-      if(daos != null){
-        daos.closeConnection
-        daos = null
       }
     }
   }
 
-
-
+  def transaction[T]( func : (IDaos) => T) : T = {
+    var conn = pm.getScopingDataSource;
+    conn.beginTransactionScope
+    var daos = pm.createDaos
+    try{
+      val result = func(daos)
+      conn.endTransactionScope
+      conn = null
+      daos.closeConnection
+      daos = null
+      result
+    }catch{
+      case e : Exception => {
+        if(conn != null){
+          conn.abortTransactionScope(e)
+          conn = null
+        }
+        if(daos != null){
+          daos.closeConnection
+          daos = null
+        }
+        throw e
+      }
+    }
+  }
 
 }
