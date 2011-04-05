@@ -29,10 +29,9 @@ class MySpecTest extends Specification with JUnit /*with ScalaCheck*/ {
           "org.h2.Driver",
           "jdbc:h2:file:testdb",null,null
         )
-
         /*val ds = new SimpleDataSource(
         "com.mysql.jdbc.Driver",
-        "jdbc:mysql://localhost:3306/test","root","*****")*/
+        "jdbc:mysql://localhost:3306/test","root","SenKosya")*/
         ScalaPersistenceManager(ds)
       }catch{
         case e : Exception => {
@@ -48,7 +47,7 @@ class MySpecTest extends Specification with JUnit /*with ScalaCheck*/ {
     sm.daos(daos => {
 
       daos.getJdbcDao.update("""create table if not exists scalaobj (
-        id BIGINT PRIMARY KEY,
+        id BIGINT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(200),
         gender INT);
       """)
@@ -60,6 +59,10 @@ class MySpecTest extends Specification with JUnit /*with ScalaCheck*/ {
 
   "InsertOrUpdate" should{
     "insert new" in  {
+      sm.daos( daos => {
+        daos.getObjectDao.readByPrimaryKey(classOf[ScalaObj],2L)
+      }) must beNull
+
       val o = new ScalaObj
       o.id = 2
       o.name = "fuga"
@@ -92,6 +95,7 @@ class MySpecTest extends Specification with JUnit /*with ScalaCheck*/ {
       o2.gender must_== o.gender
     }
   }
+
 
   "delete" should {
     "delete" in{

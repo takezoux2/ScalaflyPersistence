@@ -1,5 +1,7 @@
 package samples
 
+import com.jenkov.db.itf.mapping.AGetterMapping
+
 /**
  * Created by IntelliJ IDEA.
  * User: takeshita
@@ -9,6 +11,7 @@ package samples
  */
 
 class ScalaObj(){
+
   var id : Long = 0
   var name : String = ""
   var gender : Int = 0
