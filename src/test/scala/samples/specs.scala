@@ -24,16 +24,36 @@ class MySpecTest extends Specification with JUnit /*with ScalaCheck*/ {
 
 
   val sm = {
-      val ds = new SimpleDataSource(
+      try{
+        val ds = new SimpleDataSource(
+          "org.h2.Driver",
+          "jdbc:h2:file:testdb",null,null
+        )
+
+        /*val ds = new SimpleDataSource(
         "com.mysql.jdbc.Driver",
-        "jdbc:mysql://localhost:3306/test","root","*****")
+        "jdbc:mysql://localhost:3306/test","root","*****")*/
         ScalaPersistenceManager(ds)
+      }catch{
+        case e : Exception => {
+          e.printStackTrace
+          null
+        }
+      }
+
   }
 
   doBeforeSpec {
 
     sm.daos(daos => {
-      daos.getJdbcDao.update("delete from scalaobj where id > 1")
+
+      daos.getJdbcDao.update("""create table if not exists scalaobj (
+        id BIGINT PRIMARY KEY,
+        name VARCHAR(200),
+        gender INT);
+      """)
+      daos.getJdbcDao.update("delete from scalaobj")
+      daos.getJdbcDao.update("insert into scalaobj values (1,'hoge',3)");
     })
 
   }
