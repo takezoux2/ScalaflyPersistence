@@ -16,6 +16,9 @@ import collection.immutable.HashSet
  */
 
 class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends ObjectMapper(objectMappingFactory) {
+
+  setDbNameGuesser(new ScalaDbNameGuesser())
+
   override def mapSettersToTable(objectClass: Class[_],
                                  om: IObjectMapping,
                                  connection: Connection,
@@ -67,12 +70,11 @@ class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends Ob
                                  connection: Connection,
                                  databaseName: String, table: String) = {
     val objectMapping = assureValidObjectMapping(objectClass, om, connection, databaseName, table)
-
-
     for(m <- objectMapping.getObjectClass.getMethods if isGetter(m)){
       val possibleNames = this.nameGuesser.getPossibleColumnNames(m)
+      for(i <- possibleNames.toArray){
+      }
       val dbFieldName = this.nameDeterminer.determineColumnName(possibleNames,objectMapping.getTableName,null)
-
       if(dbFieldName != null) {
         val fieldMapping = this.objectMappingFactory.createGetterMapping(m, dbFieldName, true);
         if(fieldMapping != null){

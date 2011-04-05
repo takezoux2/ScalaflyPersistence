@@ -58,19 +58,29 @@
       <version>1.6.6</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest</artifactId>
-      <version>1.2</version>
-      <scope>test</scope>
-    </dependency>
       <dependency>
           <groupId>com.jenkov</groupId>
           <artifactId>ButterflyPersistence</artifactId>
           <version>5.3.9-SNAPSHOT</version>
       </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.14</version>
+            <scope>test</scope>
+        </dependency>
   </dependencies>
 
+  <distributionManagement>
+        <repository>
+          <id>geishatokyo.nexus</id>
+          <url>${deploy-release}</url>
+        </repository>
+        <snapshotRepository>
+          <id>geishatokyo.nexus.snapshot</id>
+          <url>${deploy-snapshot}</url>
+        </snapshotRepository>
+  </distributionManagement>
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <testSourceDirectory>src/test/scala</testSourceDirectory>

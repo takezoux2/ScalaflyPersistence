@@ -2,8 +2,8 @@ package com.jenkov.db
 
 import impl.mapping.ObjectMappingFactory
 import itf.IDaos
-import scalaimpl.ScalaObjectMapper
 import javax.sql.DataSource
+import scalaimpl.{ScalaObjectMappingFactory, ScalaObjectMapper}
 ;
 /*
  * Created by IntelliJ IDEA.
@@ -14,7 +14,9 @@ import javax.sql.DataSource
 
 object ScalaPersistenceManager{
   def apply(pm : PersistenceManager) : ScalaPersistenceManager = {
-    pm.getConfiguration.setObjectMapper(new ScalaObjectMapper(new ObjectMappingFactory()))
+    pm.getConfiguration.setObjectMapper(new ScalaObjectMapper(new ScalaObjectMappingFactory()))
+
+
     new ScalaPersistenceManager(pm)
   }
   def apply(dataSource : DataSource) : ScalaPersistenceManager = {
