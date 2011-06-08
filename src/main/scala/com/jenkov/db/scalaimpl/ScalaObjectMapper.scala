@@ -119,11 +119,11 @@ class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends Ob
             throw new PersistenceException("No class provided in either parameter or inside object method");
         }
         if(persistentObjectClass == null && mapping.getObjectClass() != null){
-            return Unit;
+            return
         }
         if(persistentObjectClass != null && mapping.getObjectClass() == null){
             mapping.setObjectClass(persistentObjectClass);
-            return Unit;
+            return
         }
 
         if(!persistentObjectClass.equals(mapping.getObjectClass())){
@@ -139,11 +139,11 @@ class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends Ob
 
   def assureValidTableName(objectMapping : IObjectMapping, table : String, connection : Connection) : Unit = {
     if(table == null && objectMapping.getTableName != null){
-      return Unit
+      return
     }
     if(table != null && objectMapping.getTableName == null){
       objectMapping.setTableName(table)
-      return Unit
+      return
     }
     if(table != null && objectMapping.getTableName != null){
       if(!table.equals(objectMapping.getTableName)){
@@ -152,7 +152,7 @@ class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends Ob
                         "parameter doesn't match with table name '" + objectMapping.getTableName() +
                         "'  found in the provided object method");
       }else{
-        return Unit
+        return
       }
     }
 
@@ -164,7 +164,7 @@ class ScalaObjectMapper(objectMappingFactory : IObjectMappingFactory) extends Ob
 
     if(tableName != null){
       objectMapping.setTableName(tableName)
-      return Unit
+      return
     }else{
       throw new PersistenceException("No table found matching class " + objectMapping.getObjectClass());
     }
