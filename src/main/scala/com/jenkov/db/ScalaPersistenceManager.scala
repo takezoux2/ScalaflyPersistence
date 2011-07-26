@@ -69,6 +69,21 @@ class ScalaPersistenceManager(val pm : PersistenceManager) {
       daos = null
       result
     }catch{
+      case interrupt : InterruptTransactionException[T] => {
+        if(conn != null){
+          try{
+            conn.abortTransactionScope(null)
+          }catch{
+            case e : Exception =>
+          }
+          conn = null
+        }
+        if(daos != null){
+          daos.closeConnection
+          daos = null
+        }
+        interrupt.returnResult
+      }
       case e : Exception => {
         if(conn != null){
           conn.abortTransactionScope(e)
@@ -82,5 +97,9 @@ class ScalaPersistenceManager(val pm : PersistenceManager) {
       }
     }
   }
+
+}
+
+class InterruptTransactionException[T](val returnResult : T) extends RuntimeException{
 
 }

@@ -79,11 +79,11 @@
 
   <distributionManagement>
         <repository>
-          <id>geishatokyo.nexus</id>
+          <id>geishatokyo-releases</id>
           <url>${deploy-release}</url>
         </repository>
         <snapshotRepository>
-          <id>geishatokyo.nexus.snapshot</id>
+          <id>geishatokyo-snapshots</id>
           <url>${deploy-snapshot}</url>
         </snapshotRepository>
   </distributionManagement>
