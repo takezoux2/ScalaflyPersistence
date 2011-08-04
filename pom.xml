@@ -77,16 +77,16 @@
         </dependency>
   </dependencies>
 
-  <distributionManagement>
+    <distributionManagement>
         <repository>
-          <id>geishatokyo-releases</id>
-          <url>${deploy-release}</url>
+            <id>geishatokyo-releases</id>
+            <url>${deploy-release}</url>
         </repository>
         <snapshotRepository>
-          <id>geishatokyo-snapshots</id>
-          <url>${deploy-snapshot}</url>
+            <id>geishatokyo-snapshots</id>
+            <url>${deploy-snapshot}</url>
         </snapshotRepository>
-  </distributionManagement>
+    </distributionManagement>
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <testSourceDirectory>src/test/scala</testSourceDirectory>

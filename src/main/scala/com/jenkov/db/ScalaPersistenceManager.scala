@@ -43,16 +43,18 @@ class ScalaPersistenceManager(val pm : PersistenceManager) {
     var daos = pm.createDaos
     try{
       val result = func(daos)
-      daos.closeConnection
-      daos = null
       result
     }catch{
+      case interrupt : InterruptTransactionException[T] => {
+        interrupt.returnResult
+      }
       case e : Exception => {
-        if(daos != null){
-          daos.closeConnection
-          daos = null
-        }
         throw e
+      }
+    }finally{
+      if(daos != null){
+        daos.closeConnection
+        daos = null
       }
     }
   }
