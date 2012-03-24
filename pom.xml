@@ -4,47 +4,82 @@
   <artifactId>ScalaflyPersistence</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>${project.artifactId}</name>
-  <description>My wonderfull scala app</description>
+  <description>ButterflyPersistence wrapper library for Scala ${scala.version}</description>
+  <url>https://github.com/takezoux2/ScalaflyPersistence</url>
   <inceptionYear>2010</inceptionYear>
   <licenses>
     <license>
-      <name>My License</name>
-      <url>http://....</url>
+      <name>MIT</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
-
+  <scm>
+    <connection>scm:git:git://github.com/takezoux2/ScalaflyPersistence.git</connection>
+    <developerConnection>scm:git:git@github.com/takezoux2/ScalaflyPersistence.git</developerConnection>
+    <url>scm:git:git://github.com/takezoux2/ScalaflyPersistence.git</url>
+  </scm>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/takezoux2/ScalaflyPersistence/issues</url>
+  </issueManagement>
+  <developers>
+    <developer>
+      <id>takezoux2</id>
+      <name>Takeshita, Yoshiteru</name>
+      <email>takeshita@geishatokyo.com</email>
+    </developer>
+  </developers>
+  <distributionManagement>
+    <repository>
+      <id>geishatokyo-releases</id>
+      <url>${deploy-release}</url>
+    </repository>
+    <snapshotRepository>
+      <id>geishatokyo-snapshots</id>
+      <url>${deploy-snapshot}</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
     <encoding>UTF-8</encoding>
-    <scala.version>2.9.0</scala.version>
   </properties>
-
-<!--
-  <repositories>
-    <repository>
-      <id>scala-tools.org</id>
-      <name>Scala-Tools Maven2 Repository</name>
-      <url>http://scala-tools.org/repo-releases</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>scala-tools.org</id>
-      <name>Scala-Tools Maven2 Repository</name>
-      <url>http://scala-tools.org/repo-releases</url>
-    </pluginRepository>
-  </pluginRepositories>
--->
+  <profiles>
+    <profile>
+      <id>scala2.9.0</id>
+      <activation>
+        <property>
+          <name>scala.version</name>
+          <value>2.9.0</value>
+        </property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <scala.version>2.9.0</scala.version>
+        <specs.version>1.6.8</specs.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>scala2.9.1</id>
+      <activation>
+        <property>
+          <name>scala.version</name>
+          <value>2.9.1</value>
+        </property>
+      </activation>
+      <properties>
+        <scala.version>2.9.1</scala.version>
+        <specs.version>1.6.9</specs.version>
+      </properties>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
     </dependency>
-
     <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
@@ -55,38 +90,27 @@
     <dependency>
       <groupId>org.scala-tools.testing</groupId>
       <artifactId>specs_${scala.version}</artifactId>
-      <version>1.6.8</version>
+      <version>${specs.version}</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>com.jenkov</groupId>
-          <artifactId>ButterflyPersistence</artifactId>
-          <version>5.3.9-SNAPSHOT</version>
-      </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.14</version>
-            <scope>test</scope>
-        </dependency>
-         <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>1.2.121</version>
-                <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>com.jenkov</groupId>
+      <artifactId>ButterflyPersistence</artifactId>
+      <version>5.3.9-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.14</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.2.121</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>geishatokyo-releases</id>
-            <url>${deploy-release}</url>
-        </repository>
-        <snapshotRepository>
-            <id>geishatokyo-snapshots</id>
-            <url>${deploy-snapshot}</url>
-        </snapshotRepository>
-    </distributionManagement>
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <testSourceDirectory>src/test/scala</testSourceDirectory>
